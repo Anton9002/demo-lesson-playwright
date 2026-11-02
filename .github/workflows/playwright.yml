@@ -27,6 +27,8 @@ jobs:
             npm run check
 
       - name: Install Playwright Browsers
+        env:
+          PLAYWRIGHT_HOST_PLATFORM_OVERRIDE: ubuntu24.04-x64
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
