@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
   await loginPage.open()
 })
 
-test.only('signIn button disabled when incorrect data inserted', async ({}) => {
+test('signIn button disabled when incorrect data inserted', async ({}) => {
   await loginPage.usernameField.fill(faker.lorem.word(2))
   await loginPage.passwordField.fill(faker.lorem.word(7))
   await expect(loginPage.signInButton).toBeDisabled()
