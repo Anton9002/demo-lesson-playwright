@@ -41,3 +41,53 @@ test('login and create order', async ({}) => {
 
   await expect(orderCreationPage.successMessage).toBeVisible()
 })
+
+test('check errors on order creation', async ({}) => {
+  // implement test
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+  await orderCreationPage.userNameInput.fill('r')
+  await orderCreationPage.phoneInput.fill('12345')
+  await orderCreationPage.commentInput.fill('random comment')
+
+  await expect(orderCreationPage.createOrderButton).toBeDisabled()
+
+  await expect(orderCreationPage.costumerNameError).toBeVisible()
+  await expect(orderCreationPage.phoneError).toBeVisible()
+})
+
+test('logout from order page', async ({}) => {
+  // implement test
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+
+  await orderCreationPage.logoutButton.click()
+
+  await expect(loginPage.signInButton).toBeVisible()
+  await expect(loginPage.page.url()).toContain('signin')
+  await expect(orderCreationPage.logoutButton).not.toBeVisible()
+})
+
+test('order not found page', async ({}) => {
+  // implement test
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+
+  await orderCreationPage.statusButton.click()
+  await orderCreationPage.searchOrderInput.fill('25000')
+  await orderCreationPage.searchOrderButton.click()
+
+  await expect(orderCreationPage.orderNotFoundText).toBeVisible()
+  await expect(orderCreationPage.orderNotFoundImage).toBeVisible()
+})
+
+test.only('order found page', async ({}) => {
+  // implement test
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+
+  await orderCreationPage.statusButton.click()
+  await orderCreationPage.searchOrderInput.fill('20622')
+  await orderCreationPage.searchOrderButton.click()
+
+  await expect(orderCreationPage.orderStatusOpen).toBeVisible()
+  await expect(orderCreationPage.orderNameDetails).toBeVisible()
+})
+
+//20622
