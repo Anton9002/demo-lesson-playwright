@@ -78,7 +78,7 @@ test('order not found page', async ({}) => {
   await expect(orderCreationPage.orderNotFoundImage).toBeVisible()
 })
 
-test.only('order found page', async ({}) => {
+test('order found page', async ({}) => {
   // implement test
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
 
