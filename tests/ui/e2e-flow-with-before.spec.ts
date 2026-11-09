@@ -111,7 +111,6 @@ test('order search --> error on server side', async ({}) => {
   await orderCreationPage.searchOrderButton.click()
 
   await expect(orderCreationPage.serverErrorText).toBeVisible()
-
 })
 
 test('create new order', async ({}) => {
