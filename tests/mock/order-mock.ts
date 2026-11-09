@@ -1,4 +1,4 @@
-import {Page} from '@playwright/test'
+import { Page } from '@playwright/test'
 
 export async function existingOrderMock(page: Page) {
   const order = {
@@ -18,19 +18,15 @@ export async function existingOrderMock(page: Page) {
 }
 
 export async function notExistingOrderMock(page: Page) {
-
   await page.route('**/orders/*', async (route) => {
-    await route.fulfill({
-    })
+    await route.fulfill({})
   })
 }
 
 export async function serverErrorOrderMock(page: Page) {
   await page.route('**/orders/*', async (route) => {
     await route.fulfill({
-
-      status: 500
-
+      status: 500,
     })
   })
 }

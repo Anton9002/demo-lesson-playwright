@@ -112,11 +112,9 @@ test('order search --> error on server side', async ({}) => {
 
   await expect(orderCreationPage.orderStatusOpen).toBeVisible()
   await expect(orderCreationPage.orderNameDetails).toBeVisible()
-
 })
 
 test('create new order', async ({}) => {
-
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
 
   await createOrderMock(orderCreationPage.page)
@@ -125,6 +123,5 @@ test('create new order', async ({}) => {
   await orderCreationPage.phoneInput.fill('1234567890')
   await orderCreationPage.commentInput.fill('random comment')
   await orderCreationPage.createOrderButton.click()
-
 })
 //20622
