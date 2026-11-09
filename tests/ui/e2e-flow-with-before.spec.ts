@@ -110,8 +110,8 @@ test('order search --> error on server side', async ({}) => {
   await orderCreationPage.searchOrderInput.fill('20622')
   await orderCreationPage.searchOrderButton.click()
 
-  await expect(orderCreationPage.orderStatusOpen).toBeVisible()
-  await expect(orderCreationPage.orderNameDetails).toBeVisible()
+  await expect(orderCreationPage.serverErrorText).toBeVisible()
+
 })
 
 test('create new order', async ({}) => {
