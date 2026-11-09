@@ -2,6 +2,12 @@ import { test, expect } from '@playwright/test'
 import { LoginPage } from '../pages/login-page'
 import { faker } from '@faker-js/faker/locale/en'
 import { PASSWORD, USERNAME } from '../../config/env-data'
+import {
+  createOrderMock,
+  existingOrderMock,
+  notExistingOrderMock,
+  serverErrorOrderMock,
+} from '../mock/order-mock'
 
 let loginPage: LoginPage
 
@@ -70,8 +76,10 @@ test('order not found page', async ({}) => {
   // implement test
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
 
+  await notExistingOrderMock(orderCreationPage.page)
+
   await orderCreationPage.statusButton.click()
-  await orderCreationPage.searchOrderInput.fill('25000')
+  await orderCreationPage.searchOrderInput.fill('0')
   await orderCreationPage.searchOrderButton.click()
 
   await expect(orderCreationPage.orderNotFoundText).toBeVisible()
@@ -82,6 +90,8 @@ test('order found page', async ({}) => {
   // implement test
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
 
+  await existingOrderMock(orderCreationPage.page)
+
   await orderCreationPage.statusButton.click()
   await orderCreationPage.searchOrderInput.fill('20622')
   await orderCreationPage.searchOrderButton.click()
@@ -90,4 +100,31 @@ test('order found page', async ({}) => {
   await expect(orderCreationPage.orderNameDetails).toBeVisible()
 })
 
+test('order search --> error on server side', async ({}) => {
+  // implement test
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+
+  await serverErrorOrderMock(orderCreationPage.page)
+
+  await orderCreationPage.statusButton.click()
+  await orderCreationPage.searchOrderInput.fill('20622')
+  await orderCreationPage.searchOrderButton.click()
+
+  await expect(orderCreationPage.orderStatusOpen).toBeVisible()
+  await expect(orderCreationPage.orderNameDetails).toBeVisible()
+
+})
+
+test('create new order', async ({}) => {
+
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+
+  await createOrderMock(orderCreationPage.page)
+
+  await orderCreationPage.userNameInput.fill('random user')
+  await orderCreationPage.phoneInput.fill('1234567890')
+  await orderCreationPage.commentInput.fill('random comment')
+  await orderCreationPage.createOrderButton.click()
+
+})
 //20622
